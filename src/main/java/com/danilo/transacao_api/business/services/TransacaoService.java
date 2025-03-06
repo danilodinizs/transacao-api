@@ -32,7 +32,19 @@ public class TransacaoService {
             throw new UnprocessableEntity("");
         }
 
-        listaTransacoes.add(dto)
+        listaTransacoes.add(dto);
+    }
+
+    public void limparTransacoes() {
+        log.info("Limpando transações");
+        listaTransacoes.clear();
+    }
+
+    public List<TransacaoRequestDTO> buscarTransacoes(Integer intervaloBusca) {
+        OffsetDateTime dataHoraIntervalo = OffsetDateTime.now().minusSeconds(intervaloBusca);
+        return listaTransacoes.stream()
+                .filter(transacao -> transacao.dataHora()
+                        .isAfter(dataHoraIntervalo)).toList();
     }
 
 }
