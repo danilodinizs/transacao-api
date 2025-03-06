@@ -3,14 +3,19 @@ package com.danilo.transacao_api.business.services;
 import com.danilo.transacao_api.controller.dtos.EstatisticasResponseDTO;
 import com.danilo.transacao_api.controller.dtos.TransacaoRequestDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EstatisticasService {
 
+    private static final Logger log = LoggerFactory.getLogger(EstatisticasService.class);
     public TransacaoService transacaoService;
 
     public EstatisticasService(TransacaoService transacaoService) {
@@ -18,9 +23,13 @@ public class EstatisticasService {
     }
 
     public EstatisticasResponseDTO calcularEstatisticaseTransacoes(Integer intervaloDeBusca) {
+
+        log.info("Iniciada a busca de estatísticas de transações pelo período de tempo de " + intervaloDeBusca + " segundos");
         List<TransacaoRequestDTO> transacoes = transacaoService.buscarTransacoes(intervaloDeBusca);
 
         DoubleSummaryStatistics estatisticasTransacoes = transacoes.stream().mapToDouble(TransacaoRequestDTO::valor).summaryStatistics();
+
+        log.info("Estatísticas retornadas com sucesso");
 
         return new EstatisticasResponseDTO(estatisticasTransacoes.getCount(),
                 estatisticasTransacoes.getSum(),
