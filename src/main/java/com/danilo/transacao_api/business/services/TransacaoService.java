@@ -25,11 +25,11 @@ public class TransacaoService {
         log.info("Iniciado o processamento de gravar transações " + dto);
         if(dto.dataHora().isAfter(OffsetDateTime.now())) {
             log.error("Data e hora maiores que a data e hora atuais");
-            throw new UnprocessableEntity("");
+            throw new UnprocessableEntity("Data e hora maiores que a data e hora atuais");
         }
         if(dto.valor() < 0) {
             log.error("Valor não pode ser menor que 0");
-            throw new UnprocessableEntity("");
+            throw new UnprocessableEntity("Valor não pode ser menor que 0");
         }
         log.info("Transações adicionadas com sucesso.");
         listaTransacoes.add(dto);
