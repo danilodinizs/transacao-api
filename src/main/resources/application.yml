@@ -15,7 +15,7 @@ management:
       description: "Api responsável por gerenciar transações e estatísticas"
     metrics:
       tags:
-        application: api-transacoes
+        application: transacoes-api
   metrics:
     enable:
       all: true
